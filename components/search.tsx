@@ -15,14 +15,14 @@ export interface SearchProps {
   searchPokedex: (
     content: string
   ) => Promise<
-    Array<Pick<SelectEmoji, "id" | "Emoji"> & { similarity: number }>
+    Array<Pick<SelectEmoji, "id" | "emoji"> & { similarity: number }>
   >;
 }
 
 export function Search({ searchPokedex }: SearchProps) {
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState<
-    Array<Pick<SelectEmoji, "id" | "Emoji"> & { similarity?: number }>
+    Array<Pick<SelectEmoji, "id" | "emoji"> & { similarity?: number }>
   >([]);
   const [debouncedQuery] = useDebounce(query, 150);
   useEffect(() => {
@@ -41,6 +41,7 @@ export function Search({ searchPokedex }: SearchProps) {
 
   return (
     <div className="w-full">
+      <p>{JSON.stringify(searchResults)}</p>
       <Command label="Command Menu" shouldFilter={false} className="h-[200px]">
         <CommandInput
           id="search"
@@ -54,7 +55,7 @@ export function Search({ searchPokedex }: SearchProps) {
           {searchResults.map((pokemon) => (
             <CommandItem
               key={pokemon.id}
-              value={pokemon.Emoji}
+              value={pokemon.emoji}
               className="flex items-center justify-between py-3"
             >
               <div className="flex items-center space-x-4">

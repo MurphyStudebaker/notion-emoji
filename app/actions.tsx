@@ -8,12 +8,14 @@ import { embed } from "ai";
 
 export async function searchPokedex(
   query: string
-): Promise<Array<Pick<SelectEmoji, "id" | "Emoji"> & { similarity: number }>> {
+): Promise<Array<Pick<SelectEmoji, "id" | "emoji"> & { similarity: number }>> {
+  console.log("searching...");
   try {
     if (query.trim().length === 0) return [];
 
     const embedding = await generateEmbedding(query);
     const vectorQuery = `[${embedding.join(",")}]`;
+    console.log(`Query: ${vectorQuery}`);
 
     const similarity = sql<number>`1 - (${cosineDistance(
       emojis.embedding,
@@ -21,12 +23,12 @@ export async function searchPokedex(
     )})`;
 
     const similarEmojis = await db
-      .select({ id: emojis.id, Emoji: emojis.Emoji, similarity })
+      .select({ id: emojis.id, emoji: emojis.emoji, similarity })
       .from(emojis)
       .where(gt(similarity, 0.5))
       .orderBy((t) => desc(t.similarity))
       .limit(8);
-
+    console.log(similarEmojis);
     return similarEmojis;
   } catch (error) {
     console.error(error);
