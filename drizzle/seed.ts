@@ -30,10 +30,12 @@ async function main() {
     );
     throw error;
   }
-  for (const record of (emojiData as any).data.slice(0, 10)) {
+  for (const record of (emojiData as any).data.slice(0, 1000)) {
     const { ...p } = record;
 
-    const embedding = await generateEmbedding(p.description);
+    const embedding = await generateEmbedding(
+      `${p.description} This emoji is associated with ${p.tags}`
+    );
     await new Promise((r) => setTimeout(r, 500)); // Wait 500ms between requests;
 
     // Create the pokemon in the database
@@ -73,6 +75,5 @@ async function generateEmbedding(raw: string) {
     model: openai.embedding("text-embedding-3-small"),
     value: input,
   });
-  console.log(embedding.length);
   return embedding;
 }
