@@ -31,9 +31,6 @@ async function main() {
     throw error;
   }
   for (const record of (emojiData as any).data[0]) {
-    // In order to save time, we'll just use the embeddings we've already generated
-    // for each Pokémon. If you want to generate them yourself, uncomment the
-    // following line and comment out the line after it.
     const { ...p } = record;
 
     const embedding = await generateEmbedding(p.Description);
