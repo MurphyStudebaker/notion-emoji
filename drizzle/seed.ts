@@ -3,7 +3,7 @@ import { db } from "./db";
 import { emojis } from "./schema";
 import { eq } from "drizzle-orm";
 import { openai } from "../lib/openai";
-import pokemon from "./pokemon-with-embeddings.json";
+import emojiData from "./emojis.json";
 import { embed } from "ai";
 
 if (!process.env.OPENAI_API_KEY) {
@@ -16,45 +16,48 @@ if (!process.env.POSTGRES_URL) {
 
 async function main() {
   try {
-    const pika = await db.query.emojis.findFirst({
-      where: (emojis, { eq }) => eq(emojis.name, "Pikachu"),
+    const sparkle = await db.query.emojis.findFirst({
+      where: (emojis, { eq }) => eq(emojis.Emoji, "\u2747\ufe0f"),
     });
 
-    if (pika) {
-      console.log("Pokédex already seeded!");
+    if (sparkle) {
+      console.log("Emoji database already seeded!");
       return;
     }
   } catch (error) {
-    console.error('Error checking if "Pikachu" exists in the database.');
+    console.error(
+      "Error checking if \u2747\ufe0f (sparkle emoji) exists in the database."
+    );
     throw error;
   }
-  for (const record of (pokemon as any).data) {
+  for (const record of (emojiData as any).data[0]) {
     // In order to save time, we'll just use the embeddings we've already generated
     // for each Pokémon. If you want to generate them yourself, uncomment the
     // following line and comment out the line after it.
-    // const embedding = await generateEmbedding(p.name);
-    // await new Promise((r) => setTimeout(r, 500)); // Wait 500ms between requests;
-    const { embedding, ...p } = record;
+    const { ...p } = record;
+
+    const embedding = await generateEmbedding(p.Description);
+    await new Promise((r) => setTimeout(r, 500)); // Wait 500ms between requests;
 
     // Create the pokemon in the database
-    const [pokemon] = await db.insert(pokemons).values(p).returning();
+    const [emoji] = await db.insert(emojis).values(p).returning();
 
     await db
-      .update(pokemons)
+      .update(emojis)
       .set({
         embedding,
       })
-      .where(eq(pokemons.id, pokemon.id));
+      .where(eq(emojis.id, emoji.id));
 
-    console.log(`Added ${pokemon.number} ${pokemon.name}`);
+    console.log(`Added ${emoji.id} ${emoji.Emoji}`);
   }
 
   // Uncomment the following lines if you want to generate the JSON file
   // fs.writeFileSync(
-  //   path.join(__dirname, "./pokemon-with-embeddings.json"),
+  //   path.join(__dirname, "./emojis-with-embeddings.json"),
   //   JSON.stringify({ data }, null, 2),
   // );
-  console.log("Pokédex seeded successfully!");
+  console.log("Emoji database seeded successfully!");
 }
 main()
   .then(async () => {
@@ -69,7 +72,7 @@ main()
 async function generateEmbedding(_input: string) {
   const input = _input.replace(/\n/g, " ");
   const { embedding } = await embed({
-    model: openai.embedding("text-embedding-ada-002"),
+    model: openai.embedding("text-embedding-3-small"),
     value: input,
   });
   return embedding;
