@@ -8,9 +8,9 @@ export const emojis = pgTable(
       .primaryKey()
       .notNull()
       .$defaultFn(() => randomUUID()),
-    character: text("character").notNull(),
-    description: text("description").notNull(),
-    tags: text("tags").notNull(),
+    Emoji: text("Emojis").notNull(),
+    Description: text("Description").notNull(),
+    Semantic_Tags: text("Semantic_Tags").notNull(),
     embedding: vector("embedding", { dimensions: 1536 }),
   },
   (table) => ({

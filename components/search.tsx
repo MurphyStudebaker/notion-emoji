@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   Command,
@@ -6,38 +6,38 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/command'
-import { SelectPokemon } from '@/drizzle/schema'
-import { useEffect, useState } from 'react'
-import { useDebounce } from 'use-debounce'
+} from "@/components/command";
+import { SelectEmoji } from "@/drizzle/schema";
+import { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
 
 export interface SearchProps {
   searchPokedex: (
     content: string
   ) => Promise<
-    Array<Pick<SelectPokemon, 'id' | 'name'> & { similarity: number }>
-  >
+    Array<Pick<SelectEmoji, "id" | "Emoji"> & { similarity: number }>
+  >;
 }
 
 export function Search({ searchPokedex }: SearchProps) {
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState<
-    Array<Pick<SelectPokemon, 'id' | 'name'> & { similarity?: number }>
-  >([])
-  const [debouncedQuery] = useDebounce(query, 150)
+    Array<Pick<SelectEmoji, "id" | "Emoji"> & { similarity?: number }>
+  >([]);
+  const [debouncedQuery] = useDebounce(query, 150);
   useEffect(() => {
-    let current = true
+    let current = true;
     if (debouncedQuery.trim().length > 0) {
       searchPokedex(debouncedQuery).then((results) => {
         if (current) {
-          setSearchResults(results)
+          setSearchResults(results);
         }
-      })
+      });
     }
     return () => {
-      current = false
-    }
-  }, [debouncedQuery, searchPokedex])
+      current = false;
+    };
+  }, [debouncedQuery, searchPokedex]);
 
   return (
     <div className="w-full">
@@ -54,14 +54,12 @@ export function Search({ searchPokedex }: SearchProps) {
           {searchResults.map((pokemon) => (
             <CommandItem
               key={pokemon.id}
-              value={pokemon.name}
+              value={pokemon.Emoji}
               className="flex items-center justify-between py-3"
             >
               <div className="flex items-center space-x-4">
                 <div className="space-y-1">
-                  <p className="text-sm text-gray-800">
-                    {pokemon.name.substring(0, 90)}
-                  </p>
+                  <p className="text-sm text-gray-800">{pokemon.Emoji}</p>
                 </div>
               </div>
               <div className="text-sm text-gray-800">
@@ -78,7 +76,7 @@ export function Search({ searchPokedex }: SearchProps) {
         </CommandList>
       </Command>
     </div>
-  )
+  );
 }
 
-Search.displayName = 'Search'
+Search.displayName = "Search";
