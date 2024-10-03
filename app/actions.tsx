@@ -25,7 +25,6 @@ export async function searchPokedex(
     const similarEmojis = await db
       .select({ id: emojis.id, emoji: emojis.emoji, similarity })
       .from(emojis)
-      .where(gt(similarity, 0.5))
       .orderBy((t) => desc(t.similarity))
       .limit(8);
     console.log(similarEmojis);

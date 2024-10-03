@@ -11,15 +11,15 @@ import { SelectEmoji } from "@/drizzle/schema";
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 
-export interface SearchProps {
-  searchPokedex: (
-    content: string
-  ) => Promise<
-    Array<Pick<SelectEmoji, "id" | "emoji"> & { similarity: number }>
-  >;
-}
+// export interface SearchProps {
+//   searchPokedex: (
+//     content: string
+//   ) => Promise<
+//     Array<Pick<SelectEmoji, "id" | "emoji"> & { similarity: number }>
+//   >;
+// }
 
-export function Search({ searchPokedex }: SearchProps) {
+export function Search({ searchPokedex, setEmoji }) {
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState<
     Array<Pick<SelectEmoji, "id" | "emoji"> & { similarity?: number }>
@@ -31,6 +31,7 @@ export function Search({ searchPokedex }: SearchProps) {
       searchPokedex(debouncedQuery).then((results) => {
         if (current) {
           setSearchResults(results);
+          setEmoji(results[0].emoji);
         }
       });
     }
@@ -41,17 +42,16 @@ export function Search({ searchPokedex }: SearchProps) {
 
   return (
     <div className="w-full">
-      <p>{JSON.stringify(searchResults)}</p>
-      <Command label="Command Menu" shouldFilter={false} className="h-[200px]">
+      <Command label="Command Menu" shouldFilter={false}>
         <CommandInput
           id="search"
-          placeholder="Search for Pokémon"
-          className="focus:ring-0 sm:text-sm text-base focus:border-0 border-0 active:ring-0 active:border-0 ring-0 outline-0"
+          placeholder="New Page"
+          className="focus:ring-0 focus:border-0 border-0 active:ring-0 active:border-0 ring-0 outline-0 text-7xl font-bold leading-tight tracking-tight"
           value={query}
           onValueChange={(q) => setQuery(q)}
         />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty></CommandEmpty>
           {searchResults.map((pokemon) => (
             <CommandItem
               key={pokemon.id}
