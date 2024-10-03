@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   Command,
@@ -6,38 +6,38 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/command'
-import { SelectPokemon } from '@/drizzle/schema'
-import { useEffect, useState } from 'react'
-import { useDebounce } from 'use-debounce'
+} from "@/components/command";
+import { SelectPokemon } from "@/drizzle/schema";
+import { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
 
 export interface SearchProps {
   searchPokedex: (
     content: string
   ) => Promise<
-    Array<Pick<SelectPokemon, 'id' | 'name'> & { similarity: number }>
-  >
+    Array<Pick<SelectPokemon, "id" | "name"> & { similarity: number }>
+  >;
 }
 
 export function Search({ searchPokedex }: SearchProps) {
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState<
-    Array<Pick<SelectPokemon, 'id' | 'name'> & { similarity?: number }>
-  >([])
-  const [debouncedQuery] = useDebounce(query, 150)
+    Array<Pick<SelectPokemon, "id" | "name"> & { similarity?: number }>
+  >([]);
+  const [debouncedQuery] = useDebounce(query, 150);
   useEffect(() => {
-    let current = true
+    let current = true;
     if (debouncedQuery.trim().length > 0) {
       searchPokedex(debouncedQuery).then((results) => {
         if (current) {
-          setSearchResults(results)
+          setSearchResults(results);
         }
-      })
+      });
     }
     return () => {
-      current = false
-    }
-  }, [debouncedQuery, searchPokedex])
+      current = false;
+    };
+  }, [debouncedQuery, searchPokedex]);
 
   return (
     <div className="w-full">
@@ -78,7 +78,7 @@ export function Search({ searchPokedex }: SearchProps) {
         </CommandList>
       </Command>
     </div>
-  )
+  );
 }
 
-Search.displayName = 'Search'
+Search.displayName = "Search";
