@@ -36,7 +36,7 @@ export async function searchPokedex(
   }
 }
 
-async function generateEmbedding(raw: string) {
+export async function generateEmbedding(raw: string) {
   // OpenAI recommends replacing newlines with spaces for best results
   const input = raw.replace(/\n/g, " ");
   const { embedding } = await embed({
