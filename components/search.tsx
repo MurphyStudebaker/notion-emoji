@@ -60,7 +60,7 @@ export function Search({ searchPokedex }: SearchProps) {
             >
               <div className="flex items-center space-x-4">
                 <div className="space-y-1">
-                  <p className="text-sm text-gray-800">{pokemon.Emoji}</p>
+                  <p className="text-sm text-gray-800">{pokemon.emoji}</p>
                 </div>
               </div>
               <div className="text-sm text-gray-800">
