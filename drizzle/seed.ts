@@ -17,7 +17,7 @@ if (!process.env.POSTGRES_URL) {
 async function main() {
   try {
     const sparkle = await db.query.emojis.findFirst({
-      where: (emojis, { eq }) => eq(emojis.Emoji, "\u2747\ufe0f"),
+      where: (emojis, { eq }) => eq(emojis.emoji, "\u2747\ufe0f"),
     });
 
     if (sparkle) {
@@ -30,10 +30,10 @@ async function main() {
     );
     throw error;
   }
-  for (const record of (emojiData as any).data) {
+  for (const record of (emojiData as any).data.slice(0, 10)) {
     const { ...p } = record;
 
-    const embedding = await generateEmbedding(p.Description);
+    const embedding = await generateEmbedding(p.description);
     await new Promise((r) => setTimeout(r, 500)); // Wait 500ms between requests;
 
     // Create the pokemon in the database
@@ -46,7 +46,7 @@ async function main() {
       })
       .where(eq(emojis.id, emoji.id));
 
-    console.log(`Added ${emoji.id} ${emoji.Emoji}`);
+    console.log(`Added ${emoji.id} ${emoji.emoji}`);
   }
 
   // Uncomment the following lines if you want to generate the JSON file
@@ -72,5 +72,6 @@ async function generateEmbedding(_input: string) {
     model: openai.embedding("text-embedding-3-small"),
     value: input,
   });
+  // let embedding = new Array(384).fill(0);
   return embedding;
 }
