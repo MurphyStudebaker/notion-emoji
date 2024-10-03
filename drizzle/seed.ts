@@ -30,7 +30,7 @@ async function main() {
     );
     throw error;
   }
-  for (const record of (emojiData as any).data[0]) {
+  for (const record of (emojiData as any).data) {
     const { ...p } = record;
 
     const embedding = await generateEmbedding(p.Description);
