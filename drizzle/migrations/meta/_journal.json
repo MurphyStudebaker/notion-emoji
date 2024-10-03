@@ -15,6 +15,13 @@
       "when": 1727985203797,
       "tag": "0001_true_zombie",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1727986278644,
+      "tag": "0002_nappy_micromax",
+      "breakpoints": true
     }
   ]
 }
