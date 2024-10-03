@@ -5,7 +5,6 @@ import { eq } from "drizzle-orm";
 import { openai } from "../lib/openai";
 import emojiData from "./emojis.json";
 import { embed } from "ai";
-import { generateEmbedding } from "../app/actions";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("process.env.OPENAI_API_KEY is not defined. Please set it.");
@@ -66,3 +65,13 @@ main()
 
     process.exit(1);
   });
+
+async function generateEmbedding(raw: string) {
+  // OpenAI recommends replacing newlines with spaces for best results
+  const input = raw.replace(/\n/g, " ");
+  const { embedding } = await embed({
+    model: openai.embedding("text-embedding-3-small"),
+    value: input,
+  });
+  return embedding;
+}
