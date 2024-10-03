@@ -40,7 +40,7 @@ export async function generateEmbedding(raw: string) {
   // OpenAI recommends replacing newlines with spaces for best results
   const input = raw.replace(/\n/g, " ");
   const { embedding } = await embed({
-    model: openai.embedding("text-embedding-ada-002"),
+    model: openai.embedding("text-embedding-3-small"),
     value: input,
   });
   return embedding;
