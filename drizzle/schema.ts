@@ -2,7 +2,7 @@ import { index, pgTable, text, vector } from "drizzle-orm/pg-core";
 import { randomUUID } from "crypto";
 
 export const emojis = pgTable(
-  "emojis_llm",
+  "emojis",
   {
     id: text("id")
       .primaryKey()
@@ -11,7 +11,7 @@ export const emojis = pgTable(
     emoji: text("emoji").notNull(),
     description: text("description").notNull(),
     tags: text("tags").notNull(),
-    embedding: vector("embedding", { dimensions: 384 }),
+    embedding: vector("embedding", { dimensions: 1536 }),
   },
   (table) => ({
     embeddingIndex: index().using(

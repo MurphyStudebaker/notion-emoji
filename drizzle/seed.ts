@@ -73,5 +73,6 @@ async function generateEmbedding(raw: string) {
     model: openai.embedding("text-embedding-3-small"),
     value: input,
   });
+  console.log(embedding.length);
   return embedding;
 }
