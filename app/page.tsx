@@ -13,19 +13,34 @@ export default function Home() {
       <div className="text-7xl">{emoji}</div>
       <Toolbar />
       <Search searchPokedex={searchPokedex} setEmoji={setEmoji} />
-      <Link
-        href="https://github.com/vercel/examples/tree/main/storage/postgres-pgvector"
-        className="lg:absolute bottom-12 right-12 flex items-center space-x-2"
-      >
-        <Image
-          src="/github.svg"
-          alt="GitHub Logo"
-          width={24}
-          height={24}
-          priority
-        />
-        <span className="font-light">Source</span>
-      </Link>
+      <footer className="flex flex-row justify-end gap-4 lg:absolute bottom-4 right-4">
+        <p>
+          {" "}
+          built by{" "}
+          <Link
+            href="https://www.linkedin.com/in/murphystude/"
+            className="font-medium"
+          >
+            Murphy
+          </Link>{" "}
+          for{" "}
+          <Link href="https://www.notion.so/product" className="font-medium">
+            Notion
+          </Link>{" "}
+        </p>
+        <Link
+          href="https://github.com/MurphyStudebaker/notion-emoji"
+          className="flex items-center space-x-2"
+        >
+          <Image
+            src="/github.svg"
+            alt="GitHub Logo"
+            width={24}
+            height={24}
+            priority
+          />
+        </Link>
+      </footer>
     </main>
   );
 }
