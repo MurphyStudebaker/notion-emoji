@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { openai } from "../lib/openai";
 import emojiData from "./emojis.json";
 import { embed } from "ai";
-import { generateEmbedding } from "@/app/actions";
+import { generateEmbedding } from "../app/actions";
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("process.env.OPENAI_API_KEY is not defined. Please set it.");
