@@ -1,76 +1,79 @@
-import 'dotenv/config'
-import { db } from './db'
-import { pokemons } from './schema'
-import { eq } from 'drizzle-orm'
-import { openai } from '../lib/openai'
-import pokemon from './pokemon-with-embeddings.json'
-import { embed } from 'ai'
+import "dotenv/config";
+import { db } from "./db";
+import { emojis } from "./schema";
+import { eq } from "drizzle-orm";
+import { openai } from "../lib/openai";
+import emojiData from "./emojis.json";
+import { embed } from "ai";
 
 if (!process.env.OPENAI_API_KEY) {
-  throw new Error('process.env.OPENAI_API_KEY is not defined. Please set it.')
+  throw new Error("process.env.OPENAI_API_KEY is not defined. Please set it.");
 }
 
 if (!process.env.POSTGRES_URL) {
-  throw new Error('process.env.POSTGRES_URL is not defined. Please set it.')
+  throw new Error("process.env.POSTGRES_URL is not defined. Please set it.");
 }
 
 async function main() {
   try {
-    const pika = await db.query.pokemons.findFirst({
-      where: (pokemons, { eq }) => eq(pokemons.name, 'Pikachu'),
-    })
+    const sparkle = await db.query.emojis.findFirst({
+      where: (emojis, { eq }) => eq(emojis.emoji, "\u2747\ufe0f"),
+    });
 
-    if (pika) {
-      console.log('Pokédex already seeded!')
-      return
+    if (sparkle) {
+      console.log("Emoji database already seeded!");
+      return;
     }
   } catch (error) {
-    console.error('Error checking if "Pikachu" exists in the database.')
-    throw error
+    console.error(
+      "Error checking if \u2747\ufe0f (sparkle emoji) exists in the database."
+    );
+    throw error;
   }
-  for (const record of (pokemon as any).data) {
-    // In order to save time, we'll just use the embeddings we've already generated
-    // for each Pokémon. If you want to generate them yourself, uncomment the
-    // following line and comment out the line after it.
-    // const embedding = await generateEmbedding(p.name);
-    // await new Promise((r) => setTimeout(r, 500)); // Wait 500ms between requests;
-    const { embedding, ...p } = record
+  // for (const record of (emojiData as any).data.slice(0, 1000)) {
+  //   const { ...p } = record;
 
-    // Create the pokemon in the database
-    const [pokemon] = await db.insert(pokemons).values(p).returning()
+  //   const embedding = await generateEmbedding(
+  //     `${p.description} This emoji is associated with ${p.tags}`
+  //   );
+  //   await new Promise((r) => setTimeout(r, 500)); // Wait 500ms between requests;
 
-    await db
-      .update(pokemons)
-      .set({
-        embedding,
-      })
-      .where(eq(pokemons.id, pokemon.id))
+  //   // Create the pokemon in the database
+  //   const [emoji] = await db.insert(emojis).values(p).returning();
 
-    console.log(`Added ${pokemon.number} ${pokemon.name}`)
-  }
+  //   await db
+  //     .update(emojis)
+  //     .set({
+  //       embedding,
+  //     })
+  //     .where(eq(emojis.id, emoji.id));
+
+  //   console.log(`Added ${emoji.id} ${emoji.emoji}`);
+  // }
 
   // Uncomment the following lines if you want to generate the JSON file
   // fs.writeFileSync(
-  //   path.join(__dirname, "./pokemon-with-embeddings.json"),
+  //   path.join(__dirname, "./emojis-with-embeddings.json"),
   //   JSON.stringify({ data }, null, 2),
   // );
-  console.log('Pokédex seeded successfully!')
+  console.log("Emoji database seeded successfully!");
 }
 main()
   .then(async () => {
-    process.exit(0)
+    process.exit(0);
   })
   .catch(async (e) => {
-    console.error(e)
+    console.error(e);
 
-    process.exit(1)
-  })
+    process.exit(1);
+  });
 
-async function generateEmbedding(_input: string) {
-  const input = _input.replace(/\n/g, ' ')
+async function generateEmbedding(raw: string) {
+  // OpenAI recommends replacing newlines with spaces for best results
+  const input = raw.replace(/\n/g, " ");
   const { embedding } = await embed({
-    model: openai.embedding('text-embedding-ada-002'),
+    model: openai.embedding("text-embedding-3-small"),
     value: input,
-  })
-  return embedding
+  });
+  return embedding;
 }

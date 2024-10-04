@@ -1,14 +1,15 @@
 "use server";
 
 import { db } from "@/drizzle/db";
-import { SelectPokemon, pokemons } from "@/drizzle/schema";
+import { SelectEmoji, emojis } from "@/drizzle/schema";
 import { openai } from "@/lib/openai";
 import { desc, sql, cosineDistance, gt } from "drizzle-orm";
 import { embed } from "ai";
 
-export async function searchPokedex(
+export async function searchEmojis(
   query: string
-): Promise<Array<Pick<SelectPokemon, "id" | "name"> & { similarity: number }>> {
+): Promise<Array<Pick<SelectEmoji, "id" | "emoji"> & { similarity: number }>> {
+  console.log("searching...");
   try {
     if (query.trim().length === 0) return [];
 
@@ -16,33 +17,43 @@ export async function searchPokedex(
     const vectorQuery = `[${embedding.join(",")}]`;
 
     const similarity = sql<number>`1 - (${cosineDistance(
-      pokemons.embedding,
+      emojis.embedding,
       vectorQuery
     )})`;
 
-    const pokemon = await db
-      .select({ id: pokemons.id, name: pokemons.name, similarity })
-      .from(pokemons)
-      .where(gt(similarity, 0.5))
+    const similarEmojis = await db
+      .select({
+        id: emojis.id,
+        emoji: emojis.emoji,
+        tags: emojis.tags,
+        similarity,
+      })
+      .from(emojis)
       .orderBy((t) => desc(t.similarity))
       .limit(8);
-
-    return pokemon;
+    return similarEmojis;
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
 
-async function generateEmbedding(raw: string) {
+export async function generateEmbedding(raw: string) {
   // OpenAI recommends replacing newlines with spaces for best results
   const input = raw.replace(/\n/g, " ");
   const { embedding } = await embed({
-    model: openai.embedding("text-embedding-ada-002"),
+    model: openai.embedding("text-embedding-3-small"),
     value: input,
   });
-  // dummy embedding for now to stop calls to api
-  //const embedding = Array(1536).fill(0);
-
   return embedding;
+}
+
+export async function chooseRandomEmoji() {
+  const allEmojis = await db
+    .select({
+      emoji: emojis.emoji,
+    })
+    .from(emojis);
+  let selection = allEmojis[Math.floor(Math.random() * allEmojis.length)];
+  return selection;
 }

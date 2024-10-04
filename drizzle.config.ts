@@ -1,9 +1,9 @@
-import { defineConfig } from 'drizzle-kit'
+import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
-  schema: './drizzle/schema.ts',
-  out: './drizzle/migrations',
-  dialect: 'postgresql',
+  schema: "./drizzle/schema.ts",
+  out: "./drizzle/migrations",
+  dialect: "postgresql",
   dbCredentials: {
     url: process.env.POSTGRES_URL!,
   },
@@ -11,4 +11,4 @@ export default defineConfig({
   // verbose: true,
   // always ask for your confirmation to execute statements: https://orm.drizzle.team/kit-docs/config-reference#strict
   // strict: true,
-})
+});
