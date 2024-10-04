@@ -31,7 +31,7 @@ async function main() {
     throw error;
   }
   let count = 0;
-  for (const record of (emojiData as any).data.slice(1000, 2000)) {
+  for (const record of (emojiData as any).data.slice(2000, 4000)) {
     const { ...p } = record;
 
     const embedding = await generateEmbedding(
