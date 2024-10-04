@@ -13,9 +13,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 export default function Home() {
   const [emoji, setEmoji] = useState("");
   const [query, setQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<
-    Array<Pick<SelectEmoji, "id" | "emoji"> & { similarity?: number }>
-  >([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [debouncedQuery] = useDebounce(query, 150);
   const [loading, setLoading] = useState(false);
 
@@ -49,7 +47,7 @@ export default function Home() {
   }, [query]);
 
   return (
-    <main className="relative flex min-h-screen flex-col items-start justify-start py-16 px-32">
+    <main className="relative flex min-h-screen flex-col items-start justify-start py-8 px-12 lg:py-16 lg:px-32">
       {loading ? <LoadingSpinner /> : <div className="text-7xl">{emoji}</div>}
       <Toolbar handleButtonClick={handleButtonClick} />
       <Search
@@ -58,9 +56,8 @@ export default function Home() {
         setQuery={setQuery}
         handleKeyPress={handleKeyPress}
       />
-      <footer className="flex flex-row justify-end gap-4 lg:absolute bottom-4 right-4">
+      <footer className="absolute bottom-4 w-full flex flex-row justify-end gap-4 right-4">
         <p>
-          {" "}
           built by{" "}
           <Link
             href="https://www.linkedin.com/in/murphystude/"
