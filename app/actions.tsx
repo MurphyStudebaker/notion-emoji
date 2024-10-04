@@ -15,7 +15,6 @@ export async function searchEmojis(
 
     const embedding = await generateEmbedding(query);
     const vectorQuery = `[${embedding.join(",")}]`;
-    console.log(`Query: ${vectorQuery}`);
 
     const similarity = sql<number>`1 - (${cosineDistance(
       emojis.embedding,
