@@ -35,12 +35,17 @@ export function Search({ query, setQuery, searchResults, handleKeyPress }) {
             <CommandItem
               key={result.id}
               value={result.emoji}
-              className="flex items-center justify-between py-3"
+              className="flex items-center justify-between py-3 gap-4"
             >
               <div className="flex items-center space-x-4">
                 <div className="space-y-1">
                   <p className="text-sm text-gray-800">{result.emoji}</p>
                 </div>
+              </div>
+              <div className="flex items-center">
+                <p className="text-sm text-gray-800 whitespace-nowrap truncate w-full max-w-72 lg:max-w-96">
+                  {result.tags}
+                </p>
               </div>
               <div className="text-sm text-gray-800">
                 {result.similarity ? (

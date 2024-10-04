@@ -30,7 +30,8 @@
     ".next/types/**/*.ts",
     "drizzle/seed.ts",
     "components/toolbar.js",
-    "components/search.js"
+    "components/search.js",
+    "app/page.js"
   ],
   "exclude": ["node_modules"]
 }

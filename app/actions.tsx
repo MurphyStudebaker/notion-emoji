@@ -22,11 +22,15 @@ export async function searchEmojis(
     )})`;
 
     const similarEmojis = await db
-      .select({ id: emojis.id, emoji: emojis.emoji, similarity })
+      .select({
+        id: emojis.id,
+        emoji: emojis.emoji,
+        tags: emojis.tags,
+        similarity,
+      })
       .from(emojis)
       .orderBy((t) => desc(t.similarity))
       .limit(8);
-    console.log(similarEmojis);
     return similarEmojis;
   } catch (error) {
     console.error(error);
