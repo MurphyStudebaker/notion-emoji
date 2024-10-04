@@ -30,26 +30,28 @@ async function main() {
     );
     throw error;
   }
-  // for (const record of (emojiData as any).data.slice(0, 1000)) {
-  //   const { ...p } = record;
+  let count = 0;
+  for (const record of (emojiData as any).data.slice(1000, 2000)) {
+    const { ...p } = record;
 
-  //   const embedding = await generateEmbedding(
-  //     `${p.description} This emoji is associated with ${p.tags}`
-  //   );
-  //   await new Promise((r) => setTimeout(r, 500)); // Wait 500ms between requests;
+    const embedding = await generateEmbedding(
+      `${p.description} This emoji is associated with ${p.tags}`
+    );
+    await new Promise((r) => setTimeout(r, 500)); // Wait 500ms between requests;
 
-  //   // Create the pokemon in the database
-  //   const [emoji] = await db.insert(emojis).values(p).returning();
+    // Create the pokemon in the database
+    const [emoji] = await db.insert(emojis).values(p).returning();
 
-  //   await db
-  //     .update(emojis)
-  //     .set({
-  //       embedding,
-  //     })
-  //     .where(eq(emojis.id, emoji.id));
+    await db
+      .update(emojis)
+      .set({
+        embedding,
+      })
+      .where(eq(emojis.id, emoji.id));
 
-  //   console.log(`Added ${emoji.id} ${emoji.emoji}`);
-  // }
+    console.log(`Added ${count} ${emoji.emoji}`);
+    count = count + 1;
+  }
 
   // Uncomment the following lines if you want to generate the JSON file
   // fs.writeFileSync(
