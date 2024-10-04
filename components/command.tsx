@@ -23,7 +23,7 @@ const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, id, ...props }, ref) => (
-  <div className="flex items-center px-3" cmdk-input-wrapper="">
+  <div className="flex items-center" cmdk-input-wrapper="">
     {/* <label htmlFor={id}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -43,6 +43,7 @@ const CommandInput = React.forwardRef<
     </label> */}
     <CommandPrimitive.Input
       ref={ref}
+      autoFocus={true}
       className={cn(
         "placeholder:text-foreground-muted placeholder:font-medium text-7xl font-black flex h-full w-full rounded-md bg-transparent leading-none outline-none disabled:cursor-not-allowed disabled:opacity-50",
         className

@@ -6,7 +6,7 @@ import { openai } from "@/lib/openai";
 import { desc, sql, cosineDistance, gt } from "drizzle-orm";
 import { embed } from "ai";
 
-export async function searchPokedex(
+export async function searchEmojis(
   query: string
 ): Promise<Array<Pick<SelectEmoji, "id" | "emoji"> & { similarity: number }>> {
   console.log("searching...");
@@ -43,4 +43,14 @@ export async function generateEmbedding(raw: string) {
     value: input,
   });
   return embedding;
+}
+
+export async function chooseRandomEmoji() {
+  const allEmojis = await db
+    .select({
+      emoji: emojis.emoji,
+    })
+    .from(emojis);
+  let selection = allEmojis[Math.floor(Math.random() * allEmojis.length)];
+  return selection;
 }

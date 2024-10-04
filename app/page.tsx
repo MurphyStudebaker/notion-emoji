@@ -1,18 +1,63 @@
 "use client";
-import { searchPokedex } from "@/app/actions";
+import { searchEmojis, chooseRandomEmoji } from "@/app/actions";
+import { db } from "@/drizzle/db";
+import { SelectEmoji, emojis } from "@/drizzle/schema";
 import { Search } from "@/components/search";
 import Toolbar from "@/components/toolbar";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function Home() {
   const [emoji, setEmoji] = useState("");
+  const [query, setQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<
+    Array<Pick<SelectEmoji, "id" | "emoji"> & { similarity?: number }>
+  >([]);
+  const [debouncedQuery] = useDebounce(query, 150);
+  const [loading, setLoading] = useState(false);
+
+  const handleButtonClick = async () => {
+    setLoading(true);
+    if (query == "") {
+      chooseRandomEmoji().then((selection) => {
+        setEmoji(selection.emoji);
+        setLoading(false);
+      });
+    } else {
+      searchEmojis(debouncedQuery).then((results) => {
+        setSearchResults(results);
+        setLoading(false);
+        setEmoji(results[0].emoji);
+      });
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleButtonClick();
+    }
+  };
+
+  useEffect(() => {
+    if (query == "") {
+      setSearchResults([]);
+      setEmoji("");
+    }
+  }, [query]);
+
   return (
     <main className="relative flex min-h-screen flex-col items-start justify-start py-16 px-32">
-      <div className="text-7xl">{emoji}</div>
-      <Toolbar />
-      <Search searchPokedex={searchPokedex} setEmoji={setEmoji} />
+      {loading ? <LoadingSpinner /> : <div className="text-7xl">{emoji}</div>}
+      <Toolbar handleButtonClick={handleButtonClick} />
+      <Search
+        query={query}
+        searchResults={searchResults}
+        setQuery={setQuery}
+        handleKeyPress={handleKeyPress}
+      />
       <footer className="flex flex-row justify-end gap-4 lg:absolute bottom-4 right-4">
         <p>
           {" "}
