@@ -45,7 +45,7 @@ As you can see, the description and tags from the first data-set actually hinder
 
 ## Data
 
-The data files are too large to upload directly to GitHub. Thus, an abbreviated sample is given in `/data/`.
+The complete data files of around 2K emojis and their embeddings are too large to upload directly to GitHub. Thus, an abbreviated sample is given in `/data/`.
 
 ## Resources
 
