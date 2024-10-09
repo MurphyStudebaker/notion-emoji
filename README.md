@@ -1,5 +1,7 @@
 # Notion Smart Emoji Selection
 
+![demo of website](https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExOGdxeWp1NXllMXpidDB2aWZoZjk4Yzg1ZzNkcWV6N296MXJxMzY4MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bVy1Q1lGX8yANN3eb8/giphy.gif)
+
 This is a demo of a feature I desperately want Notion to incorporate to their application. When I create a new page, type a title, and click "Add Emoji" the app currently picks an emoji at random. Why not replace that with a smart emoji selection based on the title text that was just entered?
 
 -> **[See it in Action](https://notion-emoji.vercel.app)** <-
