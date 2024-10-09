@@ -12,14 +12,13 @@ This demo is built using Next.js, using the Embeddings model from OpenAI + Verce
 
 ### Creation
 
-I first searched for emoji-related datasets available on the web. Many of these were designed for sentiment analysis or single word replacement tasks, which were not compatible with my goals. I found two open-source data sets for my initial test:
+I first searched for emoji-related datasets available on the web. Many of these were designed for sentiment analysis or single word replacement tasks, which were not compatible with my goals, since I needed a single emoji to represent the main concept of a short piece of title text.
 
-- Emoji with LLM Descriptions
-- Emoji Popularity
+I first generated the embeddings using only a [dataset](https://huggingface.co/datasets/badrex/llm-emoji-dataset) of emojis and LLM-generated descriptions and tags, but I quickly realized this data lacked a lot of the subtext carried by many emojis (performance is listed below).
 
-I first generated the embeddings using only the first dataset, but I quickly realized this lacked a lot of the subtext carried by many emojis.
+I then found a [dataset](https://home.unicode.org/emoji/emoji-frequency/) with name, category, and sub-category information along with the emoji's popularity, but this only had data up until 2021.
 
-I then used OpenAI's completion API to create a list of titles that each emoji may be used as an icon for. In the real world, I would simply source this data from users on Notion. But I am not Notion...so this was a decent proxy.
+I then decided to used OpenAI's completion API to create a list of titles that each emoji may be used as an icon for. In the real world, I would simply source this data from users on Notion. But I am not Notion...so this was a decent proxy. Spot-checking a few titles suggested a promising inclusion of a range of emojis in different meaningful contexts captured in this generated data, rather than only the literal meaning of the image.
 
 Here is a sample of output from this task.
 | Emoji | LLM Generated Titles |
@@ -34,13 +33,19 @@ I then embedded each emoji by passing in their meta-data attributes from the dat
 
 To evaluate the quality of the embeddings, I collected a small test set of the titles and emojis of pages within my own Notion account. Ideally, this would be a large dataset of real Notion user data (but I make do with what I have).
 
-I then tried alternate versions of the embeddings and evaluated them by choosing the most similar embedding to the title text. For each selected emoji, I would calculate its similarity to the "true" emoji (the one I chose for the page), with identical emojis receiving a similarity of 1.0. I then computed the average similarity score across all truth examples.
+I then tried alternate versions of the embeddings and evaluated them by choosing the most similar embedding to the title text. For each selected emoji, I would calculate its similarity to the "true" emoji (the one I chose for the page), with identical emojis receiving a similarity of 1.0. I then computed the average similarity score across all truth examples. The goal of this metric was to evaluate how well these embeddings would have done selecting exactly what I would have picked, with room for scenarios where there are many appropriate options (such as `"Personal Finance"` selecting `💵` or `🏦`)
 
 | Embedding Version                                         | Average Similarity |
 | --------------------------------------------------------- | ------------------ |
 | Description and Tags                                      | 0.6736             |
 | Name, Categories, Description, Tags, LLM-Generated Titles | 0.6837             |
 | Name, Categories, LLM-Generated Titles                    | 0.7361             |
+
+As you can see, the description and tags from the first data-set actually hindered the performance of the embeddings, and removing them improved selection of appropriate emojis.
+
+## Data
+
+The data files are too large to upload directly to GitHub. Thus, an abbreviated sample is given in `/data/`.
 
 ## Resources
 
@@ -53,4 +58,4 @@ This work was heavily influenced by the following resources.
 
 ## Author
 
-made by [Murphy Studebaker](https://www.linkedin.com/in/murphystude/) a machine learning engineer who likes to ship ✨
+made by [Murphy Studebaker](https://www.linkedin.com/in/murphystude/) a machine learning engineer who can ship ✨
