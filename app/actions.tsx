@@ -9,7 +9,6 @@ import { embed } from "ai";
 export async function searchEmojis(
   query: string
 ): Promise<Array<Pick<SelectEmoji, "id" | "emoji"> & { similarity: number }>> {
-  console.log("searching...");
   try {
     if (query.trim().length === 0) return [];
 

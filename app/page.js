@@ -1,20 +1,17 @@
 "use client";
 import { searchEmojis, chooseRandomEmoji } from "@/app/actions";
-import { db } from "@/drizzle/db";
-import { SelectEmoji, emojis } from "@/drizzle/schema";
 import { Search } from "@/components/search";
 import Toolbar from "@/components/toolbar";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useDebounce } from "use-debounce";
 import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function Home() {
   const [emoji, setEmoji] = useState("");
   const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [debouncedQuery] = useDebounce(query, 150);
+  // const [debouncedQuery] = useDebounce(query, 150);
   const [loading, setLoading] = useState(false);
 
   const handleButtonClick = async () => {
@@ -25,7 +22,7 @@ export default function Home() {
         setLoading(false);
       });
     } else {
-      searchEmojis(debouncedQuery).then((results) => {
+      searchEmojis(query).then((results) => {
         setSearchResults(results);
         setLoading(false);
         setEmoji(results[0].emoji);
