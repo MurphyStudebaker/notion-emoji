@@ -1,9 +1,66 @@
 {
-  "id": "e3253d6f-e842-4f14-bfc7-2c6750a8d70d",
+  "id": "49e2df12-ca39-4927-9741-5fc200941856",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.emojis_v2": {
+      "name": "emojis_v2",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "emoji": {
+          "name": "emoji",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tags": {
+          "name": "tags",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "embedding": {
+          "name": "embedding",
+          "type": "vector(1536)",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "emojis_v2_embedding_index": {
+          "name": "emojis_v2_embedding_index",
+          "columns": [
+            {
+              "expression": "embedding",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "vector_cosine_ops"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "hnsw",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.emojis": {
       "name": "emojis",
       "schema": "",
@@ -34,7 +91,7 @@
         },
         "embedding": {
           "name": "embedding",
-          "type": "vector(384)",
+          "type": "vector(1536)",
           "primaryKey": false,
           "notNull": false
         }

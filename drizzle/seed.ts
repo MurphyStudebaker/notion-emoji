@@ -3,8 +3,11 @@ import { db } from "./db";
 import { emojis } from "./schema";
 import { eq } from "drizzle-orm";
 import { openai } from "../lib/openai";
-import emojiData from "./emojis.json";
+// import emojiData from "./emojis_embeddings.json";
 import { embed } from "ai";
+
+// for seeding locally
+// require("dotenv").config({ path: ".env.local" });
 
 if (!process.env.OPENAI_API_KEY) {
   throw new Error("process.env.OPENAI_API_KEY is not defined. Please set it.");
@@ -30,8 +33,27 @@ async function main() {
     );
     throw error;
   }
-  // for (const record of (emojiData as any).data.slice(0, 1000)) {
-  //   const { ...p } = record;
+  let count = 0;
+  // for (const record of (emojiData as any).data) {
+  //   let { emoji, description, tags, embedding } = record;
+  //   if (typeof embedding === "string") {
+  //     // Convert the string embedding to an array of numbers
+  //     embedding = JSON.parse(embedding);
+  //     // Optionally, ensure all elements are numbers (if needed)
+  //     embedding = embedding.map(Number);
+  //   }
+  //   console.log("Processing " + emoji);
+
+  //   const [response] = await db
+  //     .insert(emojis)
+  //     .values({
+  //       emoji: emoji,
+  //       description: description,
+  //       tags: tags,
+  //       embedding: embedding,
+  //     })
+  //     .returning();
+  // }
 
   //   const embedding = await generateEmbedding(
   //     `${p.description} This emoji is associated with ${p.tags}`
@@ -39,7 +61,6 @@ async function main() {
   //   await new Promise((r) => setTimeout(r, 500)); // Wait 500ms between requests;
 
   //   // Create the pokemon in the database
-  //   const [emoji] = await db.insert(emojis).values(p).returning();
 
   //   await db
   //     .update(emojis)
@@ -48,7 +69,8 @@ async function main() {
   //     })
   //     .where(eq(emojis.id, emoji.id));
 
-  //   console.log(`Added ${emoji.id} ${emoji.emoji}`);
+  //   console.log(`Added ${count} ${emoji.emoji}`);
+  //   count = count + 1;
   // }
 
   // Uncomment the following lines if you want to generate the JSON file
