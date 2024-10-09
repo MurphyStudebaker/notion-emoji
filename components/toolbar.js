@@ -1,6 +1,6 @@
 export default function Toolbar({ handleButtonClick }) {
   return (
-    <div className="group px-2 pt-1">
+    <div className="group pt-1 lg:px-2">
       <button
         onClick={handleButtonClick}
         className="px-2 py-1 gap-1 text-white group-hover:text-slate-400 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium  transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-gray-100 hover:text-slate-700"
