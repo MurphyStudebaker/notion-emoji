@@ -44,8 +44,12 @@ export default function Home() {
   }, [query]);
 
   return (
-    <main className="relative flex min-h-screen flex-col items-start justify-start py-8 px-12 lg:py-16 lg:px-32">
-      {loading ? <LoadingSpinner /> : <div className="text-7xl">{emoji}</div>}
+    <main className="relative flex min-h-screen flex-col items-start justify-start p-8 md:py-8 md:px-12 lg:py-16 lg:px-32">
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="text-4xl md:text-5xl lg:text-7xl">{emoji}</div>
+      )}
       <Toolbar handleButtonClick={handleButtonClick} />
       <Search
         query={query}

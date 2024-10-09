@@ -24,7 +24,7 @@ export function Search({ query, setQuery, searchResults, handleKeyPress }) {
         <CommandInput
           id="search"
           placeholder="New Page"
-          className="focus:ring-0 focus:border-0 border-0 active:ring-0 active:border-0 ring-0 outline-0 text-7xl font-bold leading-tight tracking-tight"
+          className="focus:ring-0 focus:border-0 border-0 active:ring-0 active:border-0 ring-0 outline-0 font-bold leading-tight tracking-tight"
           value={query}
           onValueChange={(q) => setQuery(q)}
           onKeyDown={handleKeyPress}

@@ -45,7 +45,7 @@ const CommandInput = React.forwardRef<
       ref={ref}
       autoFocus={true}
       className={cn(
-        "placeholder:text-foreground-muted placeholder:font-medium text-7xl font-black flex h-full w-full rounded-md bg-transparent leading-none outline-none disabled:cursor-not-allowed disabled:opacity-50",
+        "placeholder:text-foreground-muted placeholder:font-medium font-black flex h-full w-full rounded-md bg-transparent leading-none outline-none text-4xl md:text-5xl lg:text-7xl disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
       {...props}
