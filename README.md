@@ -22,42 +22,11 @@ I first generated the embeddings using only the first dataset, but I quickly rea
 I then used OpenAI's completion API to create a list of titles that each emoji may be used as an icon for. In the real world, I would simply source this data from users on Notion. But I am not Notion...so this was a decent proxy.
 
 Here is a sample of output from this task.
-
 | Emoji | LLM Generated Titles |
 | ----- | -------------------- |
-| 🙏    | "Gratitude Journal", |
-
-    "Mindfulness and Meditation Reflections",
-    "Acts of Kindness",
-    "Thank You Notes",
-    "Prayers and Intentions",
-    "Cultivating Humility",
-    "Moments of Reflection",
-    "Daily Affirmations",
-    "Expressions of Appreciation",
-    "Meditative Practices",
-    "Lessons in Forgiveness",
-    "Connections and Community",
-    "Finding Peace in Chaos",
-    "Helping Others: A Commitment",
-    "Celebrating the Good in Life"|
-
-| 🚀 | "Launch Plans",
-"Next Steps for Project X",
-"Rocket Science: A Beginner's Guide",
-"Space Exploration History",
-"Innovation and Startups",
-"Boosting Productivity Tips",
-"Mission to Mars: A Timeline",
-"Getting Started with Space Tech",
-"Future Trends in Aerospace",
-"Elevating Your Career: Tips for Growth",
-"Succeeding in High-Stakes Environments",
-"The New Space Race",
-"Achieving Your Goals: Strategies for Success",
-"Engineering a Successful Launch",
-"Creative Ideas for the Next Big Thing"|
-| 🍑 | "Sweet Summer Recipes","Juicy Fruits to Try","Body Positivity and Self-Love","Flirty Texts for Your Crush","Healthy Snack Ideas","Tropical Vacation Essentials","Gardening Tips for Stone Fruits","Creative Smoothie Combos","The Art of Seduction","Celebrating Southern Culture","Iconic Food Symbolism in Pop Culture","Fruity Cocktails for Parties","Spring and Summer Fashion Trends","Exploring the Benefits of Peaches","Cutest Produce in the Farmers Market" |
+| 🙏 | "Gratitude Journal",<br>"Mindfulness and Meditation Reflections",<br>"Acts of Kindness",<br>"Thank You Notes",<br>"Prayers and Intentions",<br>"Cultivating Humility",<br>"Moments of Reflection",<br>"Daily Affirmations",<br>"Expressions of Appreciation",<br>"Meditative Practices",<br>"Lessons in Forgiveness",<br>"Connections and Community",<br>"Finding Peace in Chaos",<br>"Helping Others: A Commitment",<br>"Celebrating the Good in Life" |
+| 🚀 | "Launch Plans",<br>"Next Steps for Project X",<br>"Rocket Science: A Beginner's Guide",<br>"Space Exploration History",<br>"Innovation and Startups",<br>"Boosting Productivity Tips",<br>"Mission to Mars: A Timeline",<br>"Getting Started with Space Tech",<br>"Future Trends in Aerospace",<br>"Elevating Your Career: Tips for Growth",<br>"Succeeding in High-Stakes Environments",<br>"The New Space Race",<br>"Achieving Your Goals: Strategies for Success",<br>"Engineering a Successful Launch",<br>"Creative Ideas for the Next Big Thing" |
+| 🍑 | "Sweet Summer Recipes",<br>"Juicy Fruits to Try",<br>"Body Positivity and Self-Love",<br>"Flirty Texts for Your Crush",<br>"Healthy Snack Ideas",<br>"Tropical Vacation Essentials",<br>"Gardening Tips for Stone Fruits",<br>"Creative Smoothie Combos",<br>"The Art of Seduction",<br>"Celebrating Southern Culture",<br>"Iconic Food Symbolism in Pop Culture",<br>"Fruity Cocktails for Parties",<br>"Spring and Summer Fashion Trends",<br>"Exploring the Benefits of Peaches",<br>"Cutest Produce in the Farmers Market" |
 
 I then embedded each emoji by passing in their meta-data attributes from the datasets above along with the sample titles created by the LLM. This is the final version in the demo today.
 
