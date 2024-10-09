@@ -3,7 +3,7 @@
 import { db } from "@/drizzle/db";
 import { SelectEmoji, emojis } from "@/drizzle/schema";
 import { openai } from "@/lib/openai";
-import { desc, sql, cosineDistance, gt } from "drizzle-orm";
+import { desc, sql, cosineDistance } from "drizzle-orm";
 import { embed } from "ai";
 
 export async function searchEmojis(

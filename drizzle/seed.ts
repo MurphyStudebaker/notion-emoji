@@ -3,10 +3,10 @@ import { db } from "./db";
 import { emojis } from "./schema";
 import { eq } from "drizzle-orm";
 import { openai } from "../lib/openai";
-// import emojiData from "./emojis_embeddings.json";
 import { embed } from "ai";
 
 // for seeding locally
+// import emojiData from "./emojis_embeddings.json";
 // require("dotenv").config({ path: ".env.local" });
 
 if (!process.env.OPENAI_API_KEY) {
@@ -34,6 +34,8 @@ async function main() {
     throw error;
   }
   let count = 0;
+
+  // UN-COMMENT BELOW TO SEED LOCALLY FROM DATA FILE
   // for (const record of (emojiData as any).data) {
   //   let { emoji, description, tags, embedding } = record;
   //   if (typeof embedding === "string") {
@@ -54,30 +56,6 @@ async function main() {
   //     })
   //     .returning();
   // }
-
-  // const embedding = await generateEmbedding(
-  //   `${p.description} This emoji is associated with ${p.tags}`
-  // );
-  // await new Promise((r) => setTimeout(r, 500)); // Wait 500ms between requests;
-
-  //   // Create the pokemon in the database
-
-  // await db
-  //   .update(emojis)
-  //   .set({
-  //     embedding,
-  //   })
-  //   .where(eq(emojis.id, emoji.id));
-
-  //   console.log(`Added ${count} ${emoji.emoji}`);
-  //   count = count + 1;
-  // }
-
-  // Uncomment the following lines if you want to generate the JSON file
-  // fs.writeFileSync(
-  //   path.join(__dirname, "./emojis-with-embeddings.json"),
-  //   JSON.stringify({ data }, null, 2),
-  // );
   console.log("Emoji database seeded successfully!");
 }
 main()
@@ -89,13 +67,3 @@ main()
 
     process.exit(1);
   });
-
-async function generateEmbedding(raw: string) {
-  // OpenAI recommends replacing newlines with spaces for best results
-  const input = raw.replace(/\n/g, " ");
-  const { embedding } = await embed({
-    model: openai.embedding("text-embedding-3-small"),
-    value: input,
-  });
-  return embedding;
-}

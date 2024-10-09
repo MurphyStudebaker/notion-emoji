@@ -48,7 +48,7 @@ export default function Home() {
       {loading ? (
         <LoadingSpinner />
       ) : (
-        <div className="text-4xl md:text-5xl lg:text-7xl">{emoji}</div>
+        <div className="text-5xl lg:text-7xl">{emoji}</div>
       )}
       <Toolbar handleButtonClick={handleButtonClick} />
       <Search
