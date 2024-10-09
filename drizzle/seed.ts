@@ -55,19 +55,19 @@ async function main() {
   //     .returning();
   // }
 
-  //   const embedding = await generateEmbedding(
-  //     `${p.description} This emoji is associated with ${p.tags}`
-  //   );
-  //   await new Promise((r) => setTimeout(r, 500)); // Wait 500ms between requests;
+  // const embedding = await generateEmbedding(
+  //   `${p.description} This emoji is associated with ${p.tags}`
+  // );
+  // await new Promise((r) => setTimeout(r, 500)); // Wait 500ms between requests;
 
   //   // Create the pokemon in the database
 
-  //   await db
-  //     .update(emojis)
-  //     .set({
-  //       embedding,
-  //     })
-  //     .where(eq(emojis.id, emoji.id));
+  // await db
+  //   .update(emojis)
+  //   .set({
+  //     embedding,
+  //   })
+  //   .where(eq(emojis.id, emoji.id));
 
   //   console.log(`Added ${count} ${emoji.emoji}`);
   //   count = count + 1;
